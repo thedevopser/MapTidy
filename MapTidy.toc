@@ -1,0 +1,15 @@
+## Interface: 120005
+## Title: MapTidy
+## Notes: Affiche ou masque les marqueurs de quêtes par type
+## Author: TheDevOpser
+## Version: 1.0.0
+## SavedVariablesPerCharacter: MapTidyCharDB
+## IconTexture: Interface\AddOns\MapTidy\Textures\icon
+
+MapTidy.lua
+Core/Settings.lua
+Core/Filter.lua
+Hooks/WorldMap.lua
+Hooks/Minimap.lua
+UI/MinimapButton.lua
+UI/Panel.lua
