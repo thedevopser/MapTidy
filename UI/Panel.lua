@@ -1,7 +1,6 @@
 MapTidy.Panel = {}
 
 -- Noms d'atlas WoW pour les icônes (Midnight 12.0.5)
--- Vérifier en jeu : /run print(C_Texture.GetAtlasInfo("questlog-questtypeicon-campaign"))
 local QUEST_TYPES = {
     { key = "Campaign",   label = "Campagne",        atlas = "questlog-questtypeicon-story"      },
     { key = "Important",  label = "Important",       atlas = "questlog-questtypeicon-important"  },
