@@ -2,7 +2,7 @@
 ## Title: MapTidy
 ## Notes: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariablesPerCharacter: MapTidyCharDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 
