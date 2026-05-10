@@ -3,6 +3,7 @@
 ![Version](https://img.shields.io/badge/version-1.0.1-blue)
 ![WoW Interface](https://img.shields.io/badge/WoW-12.0.5%20Midnight-orange)
 ![Lua](https://img.shields.io/badge/Lua-5.1-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 > 🇫🇷 [Français](#français) · 🇬🇧 [English](#english)
 
@@ -204,4 +205,4 @@ A few rules:
 
 ## License
 
-This project is not under an open-source license. All rights reserved.
+[MIT](LICENSE) © 2026 TheDevOpser
