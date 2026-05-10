@@ -74,15 +74,21 @@ function MapTidy.MinimapButton.Initialize()
 end
 
 local function positionWorldMapButton(btn)
-    local mapLeft  = WorldMapFrame:GetLeft()
-    local mapWidth = WorldMapFrame:GetWidth()
+    local mapLeft   = WorldMapFrame:GetLeft()
+    local mapTop    = WorldMapFrame:GetTop()
+    local mapWidth  = WorldMapFrame:GetWidth()
+    local mapHeight = WorldMapFrame:GetHeight()
     if not mapLeft or mapWidth == 0 then
         btn:ClearAllPoints()
         btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
         return
     end
 
-    local threshold    = mapLeft + mapWidth * 0.85
+    -- Zone cible : bande droite (> 85 % de la largeur), dans le tiers supérieur uniquement
+    -- Exclut les boutons de coin inférieurs (?, close, etc.)
+    local xThreshold = mapLeft + mapWidth * 0.85
+    local yMinimum   = mapTop - mapHeight * 0.40
+
     local lowestFrame  = nil
     local lowestBottom = math.huge
 
@@ -90,8 +96,8 @@ local function positionWorldMapButton(btn)
         if child ~= btn and child:IsShown() then
             local w, h = child:GetSize()
             if w > 0 and w <= 50 and h > 0 and h <= 50 then
-                local cx = child:GetCenter()
-                if cx and cx > threshold then
+                local cx, cy = child:GetCenter()
+                if cx and cy and cx > xThreshold and cy > yMinimum then
                     local bottom = child:GetBottom()
                     if bottom and bottom < lowestBottom then
                         lowestBottom = bottom
