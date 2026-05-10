@@ -73,14 +73,58 @@ function MapTidy.MinimapButton.Initialize()
     MapTidy.MinimapButton.frame = createButton()
 end
 
+local function positionWorldMapButton(btn)
+    local mapLeft  = WorldMapFrame:GetLeft()
+    local mapWidth = WorldMapFrame:GetWidth()
+    if not mapLeft or mapWidth == 0 then
+        btn:ClearAllPoints()
+        btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
+        return
+    end
+
+    local threshold    = mapLeft + mapWidth * 0.85
+    local lowestFrame  = nil
+    local lowestBottom = math.huge
+
+    for _, child in ipairs({ WorldMapFrame:GetChildren() }) do
+        if child ~= btn and child:IsShown() then
+            local w, h = child:GetSize()
+            if w > 0 and w <= 50 and h > 0 and h <= 50 then
+                local cx = child:GetCenter()
+                if cx and cx > threshold then
+                    local bottom = child:GetBottom()
+                    if bottom and bottom < lowestBottom then
+                        lowestBottom = bottom
+                        lowestFrame  = child
+                    end
+                end
+            end
+        end
+    end
+
+    btn:ClearAllPoints()
+    if lowestFrame then
+        btn:SetPoint("TOP", lowestFrame, "BOTTOM", 0, -5)
+    else
+        btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
+    end
+end
+
 local function createWorldMapButton()
     if not WorldMapFrame then return nil end
     local btn = CreateFrame("Button", "MapTidyWorldMapButton", WorldMapFrame)
     btn:SetSize(22, 22)
     btn:SetFrameStrata("DIALOG")
     btn:SetFrameLevel(WorldMapFrame:GetFrameLevel() + 100)
-    -- Ancre près des boutons d'addons visibles en haut à gauche dans Midnight
-    btn:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 5, -60)
+    btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
+
+    WorldMapFrame:HookScript("OnShow", function()
+        positionWorldMapButton(btn)
+    end)
+
+    if WorldMapFrame:IsShown() then
+        positionWorldMapButton(btn)
+    end
 
     local icon = btn:CreateTexture(nil, "BACKGROUND")
     icon:SetTexture(ADDON_PATH .. "Textures\\icon")
