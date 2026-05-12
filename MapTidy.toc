@@ -1,11 +1,14 @@
 ## Interface: 120005
 ## Title: MapTidy
-## Notes: Affiche ou masque les marqueurs de quêtes par type
+## Notes: Filters quest markers by type
+## Notes-frFR: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
 ## Version: 1.1.0
 ## SavedVariablesPerCharacter: MapTidyCharDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 
+Locales\enUS.lua
+Locales\frFR.lua
 MapTidy.lua
 Core/Settings.lua
 Core/Filter.lua
