@@ -4,7 +4,14 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.2.1] — Latest
+## [1.2.2] — Latest
+
+### Fixed
+- `Locales/enUS.lua` and `Locales/frFR.lua` missing from zip — omitted from `ADDON_FILES` in Makefile
+
+---
+
+## [1.2.1]
 
 ### Added
 - Localization system (FR/EN): UI language now follows the WoW client locale

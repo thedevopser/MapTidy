@@ -5,6 +5,8 @@ VERSION  := $(shell git describe --tags --abbrev=0 2>/dev/null)
 ADDON_FILES := \
 	MapTidy.toc \
 	MapTidy.lua \
+	Locales/enUS.lua \
+	Locales/frFR.lua \
 	Core/Filter.lua \
 	Core/Settings.lua \
 	Hooks/WorldMap.lua \
