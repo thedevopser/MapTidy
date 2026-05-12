@@ -2,12 +2,12 @@ MapTidy.Panel = {}
 
 -- Noms d'atlas WoW pour les icônes (Midnight 12.0.5)
 local QUEST_TYPES = {
-    { key = "Campaign",   label = "Campagne",        atlas = "questlog-questtypeicon-story"      },
-    { key = "Important",  label = "Important",       atlas = "questlog-questtypeicon-important"  },
-    { key = "Legendary",  label = "Légendaire",      atlas = "questlog-questtypeicon-legendary"  },
-    { key = "Meta",       label = "Méta",            atlas = "questlog-questtypeicon-wrapper"    },
-    { key = "Repeatable", label = "Répétable",       atlas = "questlog-questtypeicon-recurring"  },
-    { key = "LocalStory", label = "Histoire locale", atlas = "questnormal"                     },
+    { key = "Campaign",   label = MapTidy_L.QUEST_CAMPAIGN,    atlas = "questlog-questtypeicon-story"      },
+    { key = "Important",  label = MapTidy_L.QUEST_IMPORTANT,   atlas = "questlog-questtypeicon-important"  },
+    { key = "Legendary",  label = MapTidy_L.QUEST_LEGENDARY,   atlas = "questlog-questtypeicon-legendary"  },
+    { key = "Meta",       label = MapTidy_L.QUEST_META,        atlas = "questlog-questtypeicon-wrapper"    },
+    { key = "Repeatable", label = MapTidy_L.QUEST_REPEATABLE,  atlas = "questlog-questtypeicon-recurring"  },
+    { key = "LocalStory", label = MapTidy_L.QUEST_LOCAL_STORY, atlas = "questnormal"                      },
 }
 
 local PANEL_WIDTH  = 200
@@ -96,7 +96,7 @@ local function createPanel()
     local showAllBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
     showAllBtn:SetSize(btnWidth, BUTTON_H)
     showAllBtn:SetPoint("BOTTOMLEFT", panel, "BOTTOMLEFT", PADDING, PADDING)
-    showAllBtn:SetText("Tout afficher")
+    showAllBtn:SetText(MapTidy_L.SHOW_ALL)
     showAllBtn:SetScript("OnClick", function()
         MapTidy.Settings.Reset()
         syncCheckboxes(panel)
@@ -106,7 +106,7 @@ local function createPanel()
     local hideAllBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
     hideAllBtn:SetSize(btnWidth, BUTTON_H)
     hideAllBtn:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -PADDING, PADDING)
-    hideAllBtn:SetText("Tout masquer")
+    hideAllBtn:SetText(MapTidy_L.HIDE_ALL)
     hideAllBtn:SetScript("OnClick", function()
         for _, questType in ipairs(QUEST_TYPES) do
             MapTidy.Settings.Set(questType.key, false)

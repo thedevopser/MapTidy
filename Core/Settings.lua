@@ -42,6 +42,6 @@ end
 
 function MapTidy.Settings.ToggleDebug()
     MapTidyCharDB.debug = not MapTidyCharDB.debug
-    local state = MapTidyCharDB.debug and "activé" or "désactivé"
+    local state = MapTidyCharDB.debug and MapTidy_L.DEBUG_ON or MapTidy_L.DEBUG_OFF
     print("|cff00ff00MapTidy:|r Debug " .. state)
 end

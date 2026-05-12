@@ -96,5 +96,5 @@ function MapTidy.WorldMap.StartScan()
             end
         end)
     end)
-    print("|cff00ff00MapTidy:|r Scan actif — ouvre/ferme la carte pour voir les templates.")
+    print(MapTidy_L.SCAN_ACTIVE_MSG)
 end

@@ -81,7 +81,7 @@ function MapTidy.Filter.ShouldShowPin(pin)
         if questType then
             return MapTidy.Settings.Get(questType) == true
         end
-        debugLog("Template inconnu: " .. template)
+        debugLog(MapTidy_L.UNKNOWN_TEMPLATE .. template)
     end
 
     -- Priorité 3 : détection via questID
