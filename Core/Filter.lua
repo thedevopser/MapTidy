@@ -7,6 +7,7 @@ local PASS_THROUGH_TEMPLATES = {
     ["BonusObjectivePinTemplate"]      = true,
     ["ThreatObjectivePinTemplate"]     = true,
     ["ScenarioBlobPinTemplate"]        = true,
+    ["QuestBlobPinTemplate"]           = true,
 }
 
 -- Templates spécifiques qui subsistent hors QuestOfferPinTemplate

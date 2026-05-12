@@ -12,7 +12,6 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         end
     elseif event == "PLAYER_LOGIN" then
         MapTidy.WorldMap.Initialize()
-        MapTidy.Minimap.Initialize()
         MapTidy.MinimapButton.Initialize()
         MapTidy.WorldMapButton.Initialize()
         MapTidy.Panel.Initialize()
@@ -25,7 +24,6 @@ SlashCmdList["MAPTIDY"] = function(msg)
     if cmd == "reset" then
         MapTidy.Settings.Reset()
         MapTidy.WorldMap.Refresh()
-        MapTidy.Minimap.Refresh()
         print("|cff00ff00MapTidy:|r Réglages réinitialisés.")
     elseif cmd == "debug" then
         MapTidy.Settings.ToggleDebug()

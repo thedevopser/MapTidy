@@ -57,6 +57,12 @@ local function createPanel()
     sep:SetSize(PANEL_WIDTH - 20, 8)
     sep:SetPoint("TOP", title, "BOTTOM", 0, -2)
 
+    local closeBtn = CreateFrame("Button", nil, panel, "UIPanelCloseButton")
+    closeBtn:SetPoint("TOPRIGHT", panel, "TOPRIGHT", 1, -1)
+    closeBtn:SetScript("OnClick", function()
+        panel:Hide()
+    end)
+
     panel.checkboxes = {}
     for i, questType in ipairs(QUEST_TYPES) do
         local offsetY = -(PADDING + HEADER_H + (i - 1) * ROW_HEIGHT)
@@ -80,21 +86,33 @@ local function createPanel()
         cb:SetScript("OnClick", function(self)
             MapTidy.Settings.Set(questType.key, self:GetChecked() and true or false)
             MapTidy.WorldMap.Refresh()
-            MapTidy.Minimap.Refresh()
         end)
 
         panel.checkboxes[questType.key] = cb
     end
 
-    local resetBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
-    resetBtn:SetSize(PANEL_WIDTH - PADDING * 2, BUTTON_H)
-    resetBtn:SetPoint("BOTTOM", panel, "BOTTOM", 0, PADDING)
-    resetBtn:SetText("Tout afficher")
-    resetBtn:SetScript("OnClick", function()
+    local btnWidth = math.floor((PANEL_WIDTH - PADDING * 2 - 4) / 2)
+
+    local showAllBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    showAllBtn:SetSize(btnWidth, BUTTON_H)
+    showAllBtn:SetPoint("BOTTOMLEFT", panel, "BOTTOMLEFT", PADDING, PADDING)
+    showAllBtn:SetText("Tout afficher")
+    showAllBtn:SetScript("OnClick", function()
         MapTidy.Settings.Reset()
         syncCheckboxes(panel)
         MapTidy.WorldMap.Refresh()
-        MapTidy.Minimap.Refresh()
+    end)
+
+    local hideAllBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+    hideAllBtn:SetSize(btnWidth, BUTTON_H)
+    hideAllBtn:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -PADDING, PADDING)
+    hideAllBtn:SetText("Tout masquer")
+    hideAllBtn:SetScript("OnClick", function()
+        for _, questType in ipairs(QUEST_TYPES) do
+            MapTidy.Settings.Set(questType.key, false)
+        end
+        syncCheckboxes(panel)
+        MapTidy.WorldMap.Refresh()
     end)
 
     local x = MapTidy.Settings.Get("panelX")

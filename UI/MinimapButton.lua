@@ -49,7 +49,6 @@ local function createButton()
         elseif btn == "RightButton" then
             MapTidy.Settings.Reset()
             MapTidy.WorldMap.Refresh()
-            MapTidy.Minimap.Refresh()
             print("|cff00ff00MapTidy:|r Tout affiché.")
         end
     end)
