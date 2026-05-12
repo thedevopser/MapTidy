@@ -24,7 +24,7 @@ SlashCmdList["MAPTIDY"] = function(msg)
     if cmd == "reset" then
         MapTidy.Settings.Reset()
         MapTidy.WorldMap.Refresh()
-        print("|cff00ff00MapTidy:|r Réglages réinitialisés.")
+        print(MapTidy_L.RESET_MSG)
     elseif cmd == "debug" then
         MapTidy.Settings.ToggleDebug()
     elseif cmd == "scan" then

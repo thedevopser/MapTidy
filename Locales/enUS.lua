@@ -1,0 +1,19 @@
+MapTidy_L = {}
+local L = MapTidy_L
+
+L.RESET_MSG           = "|cff00ff00MapTidy:|r Settings reset."
+L.DEBUG_ON            = "enabled"
+L.DEBUG_OFF           = "disabled"
+L.UNKNOWN_TEMPLATE    = "Unknown template: "
+L.QUEST_CAMPAIGN      = "Campaign"
+L.QUEST_IMPORTANT     = "Important"
+L.QUEST_LEGENDARY     = "Legendary"
+L.QUEST_META          = "Meta"
+L.QUEST_REPEATABLE    = "Repeatable"
+L.QUEST_LOCAL_STORY   = "Local Story"
+L.SHOW_ALL            = "Show All"
+L.HIDE_ALL            = "Hide All"
+L.SHOW_ALL_MSG        = "|cff00ff00MapTidy:|r All shown."
+L.TOOLTIP_LEFT_CLICK  = "|cffaaaaaaLeft click|r : Filters"
+L.TOOLTIP_RIGHT_CLICK = "|cffaaaaaaRight click|r : Show All"
+L.SCAN_ACTIVE_MSG     = "|cff00ff00MapTidy:|r Scan active — open/close map to see templates."

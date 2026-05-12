@@ -2,6 +2,8 @@
 _G.MapTidy        = {}
 _G.MapTidyCharDB  = nil
 _G.print          = function() end
+_G.GetLocale      = function() return "enUS" end
+dofile("Locales/enUS.lua")
 
 _G.C_CampaignInfo = {
     GetCampaignID = function(questID) return nil end,
