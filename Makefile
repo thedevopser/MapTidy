@@ -8,7 +8,6 @@ ADDON_FILES := \
 	Core/Filter.lua \
 	Core/Settings.lua \
 	Hooks/WorldMap.lua \
-	Hooks/Minimap.lua \
 	UI/Panel.lua \
 	UI/MinimapButton.lua \
 	Textures/icon.tga
