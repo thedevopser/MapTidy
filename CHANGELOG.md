@@ -4,7 +4,19 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.2.2] — Latest
+## [1.2.3] — Latest
+
+### Fixed
+- WorldMap button positioning on characters with few addons enabled — the custom child-frame scan was unreliable and could anchor to internal Blizzard layout frames
+
+### Changed
+- WorldMap button now uses [Krowi_WorldMapButtons](https://github.com/TheKrowi/Krowi_WorldMapButtons) library for positioning (same approach as HandyNotes) — anchors to `GetCanvasContainer()` and stacks automatically with Blizzard and third-party addon buttons
+- Button template moved to XML (`UI/WorldMapButton.xml`) with a `MapTidyWorldMapButtonMixin`
+- Added `libs/LibStub.lua` and `libs/Krowi_WorldMapButtons/` as embedded dependencies
+
+---
+
+## [1.2.2]
 
 ### Fixed
 - `Locales/enUS.lua` and `Locales/frFR.lua` missing from zip — omitted from `ADDON_FILES` in Makefile

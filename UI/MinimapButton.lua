@@ -72,91 +72,28 @@ function MapTidy.MinimapButton.Initialize()
     MapTidy.MinimapButton.frame = createButton()
 end
 
-local function positionWorldMapButton(btn)
-    local mapLeft   = WorldMapFrame:GetLeft()
-    local mapTop    = WorldMapFrame:GetTop()
-    local mapWidth  = WorldMapFrame:GetWidth()
-    local mapHeight = WorldMapFrame:GetHeight()
-    if not mapLeft or mapWidth == 0 then
-        btn:ClearAllPoints()
-        btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
-        return
-    end
+MapTidyWorldMapButtonMixin = {}
 
-    -- Zone cible : bande droite (> 85 % de la largeur), dans le tiers supérieur uniquement
-    -- Exclut les boutons de coin inférieurs (?, close, etc.)
-    local xThreshold = mapLeft + mapWidth * 0.85
-    local yMinimum   = mapTop - mapHeight * 0.40
-
-    local lowestFrame  = nil
-    local lowestBottom = math.huge
-
-    for _, child in ipairs({ WorldMapFrame:GetChildren() }) do
-        if child ~= btn and child:IsShown() then
-            local w, h = child:GetSize()
-            if w > 0 and w <= 50 and h > 0 and h <= 50 then
-                local cx, cy = child:GetCenter()
-                if cx and cy and cx > xThreshold and cy > yMinimum then
-                    local bottom = child:GetBottom()
-                    if bottom and bottom < lowestBottom then
-                        lowestBottom = bottom
-                        lowestFrame  = child
-                    end
-                end
-            end
-        end
-    end
-
-    btn:ClearAllPoints()
-    if lowestFrame then
-        btn:SetPoint("TOP", lowestFrame, "BOTTOM", 0, -5)
-    else
-        btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
-    end
+function MapTidyWorldMapButtonMixin:OnLoad()
+    self:SetFrameLevel(self:GetParent():GetFrameLevel() + 100)
 end
 
-local function createWorldMapButton()
-    if not WorldMapFrame then return nil end
-    local btn = CreateFrame("Button", "MapTidyWorldMapButton", WorldMapFrame)
-    btn:SetSize(22, 22)
-    btn:SetFrameStrata("DIALOG")
-    btn:SetFrameLevel(WorldMapFrame:GetFrameLevel() + 100)
-    btn:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -5, -150)
+function MapTidyWorldMapButtonMixin:OnClick()
+    MapTidy.Panel.Toggle()
+end
 
-    WorldMapFrame:HookScript("OnShow", function()
-        positionWorldMapButton(btn)
-    end)
+function MapTidyWorldMapButtonMixin:OnEnter()
+    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+    GameTooltip:AddLine("MapTidy")
+    GameTooltip:AddLine(MapTidy_L.TOOLTIP_LEFT_CLICK, 1, 1, 1)
+    GameTooltip:Show()
+end
 
-    if WorldMapFrame:IsShown() then
-        positionWorldMapButton(btn)
-    end
-
-    local icon = btn:CreateTexture(nil, "BACKGROUND")
-    icon:SetTexture(ADDON_PATH .. "Textures\\icon")
-    icon:SetAllPoints()
-
-    local highlight = btn:CreateTexture(nil, "HIGHLIGHT")
-    highlight:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
-    highlight:SetAllPoints()
-    highlight:SetBlendMode("ADD")
-
-    btn:SetScript("OnClick", function()
-        MapTidy.Panel.Toggle()
-    end)
-    btn:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:AddLine("MapTidy")
-        GameTooltip:AddLine(MapTidy_L.TOOLTIP_LEFT_CLICK, 1, 1, 1)
-        GameTooltip:Show()
-    end)
-    btn:SetScript("OnLeave", function()
-        GameTooltip:Hide()
-    end)
-
-    return btn
+function MapTidyWorldMapButtonMixin:Refresh()
 end
 
 function MapTidy.WorldMapButton.Initialize()
     if not WorldMapFrame then return end
-    MapTidy.WorldMapButton.frame = createWorldMapButton()
+    MapTidy.WorldMapButton.frame = LibStub("Krowi_WorldMapButtons-1.4"):Add(
+        "MapTidyWorldMapButtonTemplate", "Button")
 end
