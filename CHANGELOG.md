@@ -7,7 +7,7 @@ All notable changes to MapTidy are documented here.
 ## [1.2.4] — Latest
 
 ### Fixed
-- libs (`LibStub.lua`, `Krowi_WorldMapButtons`) et `UI/WorldMapButton.xml` absents du zip — omis de `ADDON_FILES` dans le Makefile, provoquant un crash au chargement de l'addon
+- `libs/LibStub.lua`, `libs/Krowi_WorldMapButtons/` and `UI/WorldMapButton.xml` missing from zip — omitted from `ADDON_FILES` in Makefile, causing a crash cascade on addon load
 
 ---
 
