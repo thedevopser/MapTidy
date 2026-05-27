@@ -5,11 +5,15 @@ VERSION  := $(shell git describe --tags --abbrev=0 2>/dev/null)
 ADDON_FILES := \
 	MapTidy.toc \
 	MapTidy.lua \
+	libs/LibStub.lua \
+	libs/Krowi_WorldMapButtons/Krowi_WorldMapButtons-1.4.xml \
+	libs/Krowi_WorldMapButtons/Krowi_WorldMapButtons-1.4.lua \
 	Locales/enUS.lua \
 	Locales/frFR.lua \
 	Core/Filter.lua \
 	Core/Settings.lua \
 	Hooks/WorldMap.lua \
+	UI/WorldMapButton.xml \
 	UI/Panel.lua \
 	UI/MinimapButton.lua \
 	Textures/icon.tga

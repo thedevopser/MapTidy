@@ -4,7 +4,14 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.2.3] — Latest
+## [1.2.4] — Latest
+
+### Fixed
+- libs (`LibStub.lua`, `Krowi_WorldMapButtons`) et `UI/WorldMapButton.xml` absents du zip — omis de `ADDON_FILES` dans le Makefile, provoquant un crash au chargement de l'addon
+
+---
+
+## [1.2.3]
 
 ### Fixed
 - WorldMap button positioning on characters with few addons enabled — the custom child-frame scan was unreliable and could anchor to internal Blizzard layout frames
