@@ -4,7 +4,14 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.2.4] — Latest
+## [1.2.5] — Latest
+
+### Fixed
+- bump wow verfsion to 12.0.7
+
+---
+
+## [1.2.4]
 
 ### Fixed
 - `libs/LibStub.lua`, `libs/Krowi_WorldMapButtons/` and `UI/WorldMapButton.xml` missing from zip — omitted from `ADDON_FILES` in Makefile, causing a crash cascade on addon load

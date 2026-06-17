@@ -1,9 +1,9 @@
-## Interface: 120005
+## Interface: 120007
 ## Title: MapTidy
 ## Notes: Filters quest markers by type
 ## Notes-frFR: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
-## Version: 1.2.4
+## Version: 1.2.5
 ## SavedVariablesPerCharacter: MapTidyCharDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 
