@@ -8,6 +8,7 @@ local QUEST_TYPES = {
     { key = "Meta",       label = MapTidy_L.QUEST_META,        atlas = "questlog-questtypeicon-wrapper"    },
     { key = "Repeatable", label = MapTidy_L.QUEST_REPEATABLE,  atlas = "questlog-questtypeicon-recurring"  },
     { key = "LocalStory", label = MapTidy_L.QUEST_LOCAL_STORY, atlas = "questnormal"                      },
+    { key = "Expedition", label = MapTidy_L.QUEST_EXPEDITION,  atlas = "worldquest-tracker-questmarker"   },
 }
 
 local PANEL_WIDTH  = 200

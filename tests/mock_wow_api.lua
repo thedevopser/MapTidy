@@ -14,6 +14,10 @@ _G.C_QuestLog = {
     IsRepeatableQuest  = function(questID) return false end,
 }
 
+_G.C_TaskQuest = {
+    GetQuestTimeLeftSeconds = function(questID) return nil end,
+}
+
 _G.Enum = {
     QuestTag = {
         Legendary = 11,

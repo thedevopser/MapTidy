@@ -29,5 +29,7 @@ SlashCmdList["MAPTIDY"] = function(msg)
         MapTidy.Settings.ToggleDebug()
     elseif cmd == "scan" then
         MapTidy.WorldMap.StartScan()
+    elseif cmd == "inspect" then
+        MapTidy.WorldMap.InspectPins()
     end
 end

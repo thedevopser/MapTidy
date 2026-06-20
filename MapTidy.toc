@@ -3,7 +3,7 @@
 ## Notes: Filters quest markers by type
 ## Notes-frFR: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
-## Version: 1.2.5
+## Version: 1.3.0
 ## SavedVariablesPerCharacter: MapTidyCharDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 

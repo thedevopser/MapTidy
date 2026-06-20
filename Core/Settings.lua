@@ -7,13 +7,14 @@ local DEFAULTS = {
     Meta         = true,
     Repeatable   = true,
     LocalStory   = true,
+    Expedition   = true,
     panelX       = nil,
     panelY       = nil,
     minimapAngle = 225,
     debug        = false,
 }
 
-local FILTER_KEYS = { "Campaign", "Important", "Legendary", "Meta", "Repeatable", "LocalStory" }
+local FILTER_KEYS = { "Campaign", "Important", "Legendary", "Meta", "Repeatable", "LocalStory", "Expedition" }
 
 function MapTidy.Settings.Initialize()
     if not MapTidyCharDB then
