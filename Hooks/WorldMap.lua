@@ -9,7 +9,15 @@ local QUEST_TEMPLATES = {
     "QuestNormalPinTemplate",
     "QuestTrivialPinTemplate",
     "QuestOfferPinTemplate",
+    "QuestPinTemplate",
+    "AreaPOIEventPinTemplate",
 }
+
+-- Set indexé pour lookup O(1) dans IsQuestPin
+local FILTERABLE_TEMPLATES = {}
+for _, template in ipairs(QUEST_TEMPLATES) do
+    FILTERABLE_TEMPLATES[template] = true
+end
 
 local function applyFilterToPin(pin)
     if MapTidy.Filter.ShouldShowPin(pin) then
@@ -27,12 +35,17 @@ local PASS_THROUGH_TEMPLATES = {
     ["ScenarioBlobPinTemplate"]        = true,
 }
 
--- Détecte si un enfant du canvas est un pin de quête filtrable
-local function isQuestPin(child)
-    if child.pinTemplate and PASS_THROUGH_TEMPLATES[child.pinTemplate] then return false end
+-- Détecte si un enfant du canvas est un pin filtrable (allow-list).
+-- On ne touche QU'aux vrais pins de quête (template connu ou questClassification)
+-- et aux expéditions (events à durée limitée). Les autres pins questID-only
+-- (POI, gouffres, pins d'addons tiers) restent intacts → pas de masquage parasite.
+function MapTidy.WorldMap.IsQuestPin(child)
+    -- Expédition d'abord : un pin WorldQuest (en pass-through) peut être une expédition.
+    if MapTidy.Filter.IsExpeditionPin(child) then return true end
+    local template = child.pinTemplate
+    if template and PASS_THROUGH_TEMPLATES[template] then return false end
+    if template and FILTERABLE_TEMPLATES[template] then return true end
     if child.questClassification ~= nil then return true end
-    if child.questID ~= nil or child.questId ~= nil then return true end
-    if child.questInfo then return true end
     return false
 end
 
@@ -48,7 +61,7 @@ local function refreshAllPins()
     local canvas = WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
     if canvas then
         for _, child in pairs({canvas:GetChildren()}) do
-            if isQuestPin(child) then
+            if MapTidy.WorldMap.IsQuestPin(child) then
                 applyFilterToPin(child)
             end
         end
@@ -84,6 +97,39 @@ end
 
 function MapTidy.WorldMap.Refresh()
     refreshAllPins()
+end
+
+-- Outil de diagnostic (Phase 0) : confirme en jeu quel signal identifie une expédition.
+-- Liste TOUS les templates présents sur le canvas + le verdict de détection,
+-- et le détail des API pour ceux qui portent un questID.
+function MapTidy.WorldMap.InspectPins()
+    local canvas = WorldMapFrame and WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
+    if not canvas then return end
+
+    local seen = {}
+    for _, child in pairs({canvas:GetChildren()}) do
+        local template = tostring(child.pinTemplate)
+        local questID  = MapTidy.Filter.GetQuestID(child)
+        if not seen[template] then
+            seen[template] = true
+            local filtered = MapTidy.WorldMap.IsQuestPin(child)
+            print(string.format("|cff00ff00MapTidy Inspect:|r template=%s filtré=%s",
+                template, tostring(filtered)))
+        end
+        if questID and questID ~= 0 then
+            local timeLeft   = C_TaskQuest and C_TaskQuest.GetQuestTimeLeftSeconds and C_TaskQuest.GetQuestTimeLeftSeconds(questID)
+            local campaignID = C_CampaignInfo and C_CampaignInfo.GetCampaignID and C_CampaignInfo.GetCampaignID(questID)
+            local tagInfo    = C_QuestLog and C_QuestLog.GetQuestTagInfo and C_QuestLog.GetQuestTagInfo(questID)
+            print(string.format(
+                "|cffffff00  → questID=%s timeLeft=%s campaignID=%s worldQuestType=%s classification=%s|r",
+                tostring(questID),
+                tostring(timeLeft),
+                tostring(campaignID),
+                tostring(tagInfo and tagInfo.worldQuestType),
+                tostring(child.questClassification)
+            ))
+        end
+    end
 end
 
 function MapTidy.WorldMap.StartScan()

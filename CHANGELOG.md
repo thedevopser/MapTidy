@@ -4,7 +4,22 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.2.5] — Latest
+## [1.3.0] — Latest
+
+### Added
+- New **Expedition** quest type (zone events with a time limit — battalion reputation, loot) with its own checkbox in the filter panel, enabled by default
+- `/maptidy inspect` — diagnostic command logging each map pin's template, questID, time left, campaign ID, world quest type and classification
+
+### Fixed
+- Expeditions no longer disappear or flicker when **Campaign** is unchecked. Their pins carry a `questID` attached to a campaign, so they were wrongly classified as Campaign and hidden — worsened by addons (WorldQuestList / WorldQuestTab) that re-render them. They are now detected as their own type and controlled only by the Expedition checkbox
+- `campaignID == 0` (returned for non-campaign quests) was treated as truthy in Lua and misclassified pins as Campaign — now requires `> 0`
+- World map canvas scan no longer filters every pin carrying a `questID` (delves, area POIs, third-party pins); it now only touches genuine quest pins and expeditions, ending the parasitic hiding
+
+### Changed
+- Expedition detection is template- and addon-independent: a pin is an expedition if its template is `AreaPOIEventPinTemplate` or its quest has a remaining time (`C_TaskQuest.GetQuestTimeLeftSeconds`), so all renderings (native diamond, AreaPOI, world quest) respond to the same checkbox
+- questID extraction now also reads the pin's `GetQuestID()` method (used by AreaPOI pins)
+
+## [1.2.5]
 
 ### Fixed
 - bump wow verfsion to 12.0.7

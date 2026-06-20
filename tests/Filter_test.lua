@@ -187,3 +187,78 @@ describe("Filter.ShouldShowPin — fallback questID", function()
         assert.is_false(MapTidy.Filter.ShouldShowPin(pin("TemplateInconnue", 789)))
     end)
 end)
+
+describe("Filter.ShouldShowPin — Expédition (event de zone à durée limitée)", function()
+    before_each(function()
+        _G.MapTidyCharDB = nil
+        MapTidy.Settings.Initialize()
+        _G.C_CampaignInfo.GetCampaignID       = function() return nil end
+        _G.C_QuestLog.GetQuestTagInfo         = function() return nil end
+        _G.C_QuestLog.IsRepeatableQuest       = function() return false end
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return nil end
+    end)
+
+    it("classe en Expedition un pin AreaPOIEventPinTemplate (losange doré natif)", function()
+        MapTidy.Settings.Set("Expedition", false)
+        assert.is_false(MapTidy.Filter.ShouldShowPin(pin("AreaPOIEventPinTemplate")))
+    end)
+
+    it("affiche l'event AreaPOIEventPinTemplate quand Expedition=true", function()
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("AreaPOIEventPinTemplate")))
+    end)
+
+    it("classe en Expedition (pas Campaign) un pin questID-only à durée limitée", function()
+        -- pin d'addon : questID rattaché à une campagne MAIS event à durée limitée
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 90000 end
+        _G.C_CampaignInfo.GetCampaignID       = function() return 99 end
+        MapTidy.Settings.Set("Campaign", false)
+        -- Campagne décochée ne doit PAS masquer l'expédition
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("TemplateInconnue", 248583)))
+    end)
+
+    it("masque l'expédition questID-only quand Expedition=false", function()
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 90000 end
+        MapTidy.Settings.Set("Expedition", false)
+        assert.is_false(MapTidy.Filter.ShouldShowPin(pin("TemplateInconnue", 248583)))
+    end)
+
+    it("IsExpeditionQuest : true si temps restant > 0, false sinon", function()
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 5 end
+        assert.is_true(MapTidy.Filter.IsExpeditionQuest(1))
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 0 end
+        assert.is_false(MapTidy.Filter.IsExpeditionQuest(1))
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return nil end
+        assert.is_false(MapTidy.Filter.IsExpeditionQuest(1))
+        assert.is_false(MapTidy.Filter.IsExpeditionQuest(nil))
+    end)
+
+    it("expédition rendue en WorldQuest (pass-through) suit Expedition, pas le pass-through", function()
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 103904 end
+        local worldQuestExpedition = { pinTemplate = "WorldMap_WorldQuestPinTemplate", questID = 91803 }
+        assert.is_true(MapTidy.Filter.ShouldShowPin(worldQuestExpedition))
+        MapTidy.Settings.Set("Expedition", false)
+        assert.is_false(MapTidy.Filter.ShouldShowPin(worldQuestExpedition))
+    end)
+
+    it("WorldQuest SANS durée limitée reste pass-through (toujours visible)", function()
+        MapTidy.Settings.Set("Expedition", false)
+        assert.is_true(MapTidy.Filter.ShouldShowPin({ pinTemplate = "WorldMap_WorldQuestPinTemplate", questID = 1 }))
+    end)
+
+    it("lit le questID via la méthode GetQuestID (pins AreaPOI)", function()
+        _G.C_TaskQuest.GetQuestTimeLeftSeconds = function() return 255104 end
+        local areaPoiPin = {
+            pinTemplate = "AreaPOIPinTemplate",
+            GetQuestID  = function() return 91808 end,
+        }
+        MapTidy.Settings.Set("Expedition", false)
+        assert.is_false(MapTidy.Filter.ShouldShowPin(areaPoiPin))
+    end)
+
+    it("ne classe PAS Campaign quand campaignID = 0 (0 est truthy en Lua)", function()
+        _G.C_CampaignInfo.GetCampaignID = function() return 0 end
+        MapTidy.Settings.Set("Campaign", false)
+        -- questID sans temps restant, campaignID 0 → ne doit pas tomber dans Campaign
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("TemplateInconnue", 248583)))
+    end)
+end)
