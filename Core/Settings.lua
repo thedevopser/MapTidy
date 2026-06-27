@@ -8,6 +8,7 @@ local DEFAULTS = {
     Repeatable   = true,
     LocalStory   = true,
     Expedition   = true,
+    HideWarbandCompleted = true,
     panelX       = nil,
     panelY       = nil,
     minimapAngle = 225,
@@ -39,6 +40,8 @@ function MapTidy.Settings.Reset()
     for _, k in ipairs(FILTER_KEYS) do
         MapTidyCharDB[k] = true
     end
+    -- "Tout afficher" implique aussi de remontrer le déjà-fait
+    MapTidyCharDB.HideWarbandCompleted = false
 end
 
 function MapTidy.Settings.ToggleDebug()

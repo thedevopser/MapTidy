@@ -69,3 +69,22 @@ describe("Settings.Reset", function()
         assert.equals(100, MapTidy.Settings.Get("panelX"))
     end)
 end)
+
+describe("Settings — HideWarbandCompleted", function()
+    before_each(function()
+        _G.MapTidyCharDB = nil
+        MapTidy.Settings.Initialize()
+    end)
+
+    it("vaut true par défaut", function()
+        assert.is_true(MapTidy.Settings.Get("HideWarbandCompleted"))
+    end)
+
+    it("Reset() met les types à true et HideWarbandCompleted à false", function()
+        MapTidy.Settings.Set("Campaign", false)
+        MapTidy.Settings.Set("HideWarbandCompleted", true)
+        MapTidy.Settings.Reset()
+        assert.is_true(MapTidyCharDB.Campaign)
+        assert.is_false(MapTidyCharDB.HideWarbandCompleted)
+    end)
+end)
