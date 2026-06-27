@@ -299,4 +299,11 @@ describe("Filter.ShouldShowPin — masquage déjà-fait par le bataillon", funct
         C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
         assert.is_false(MapTidy.Filter.IsCompletedByWarband(nil))
     end)
+
+    -- Verrouille l'ordre des gardes : une expédition déjà faite suit son propre
+    -- réglage (Expedition), le masquage du déjà-fait ne doit jamais l'atteindre.
+    it("ne masque pas une expédition déjà faite (garde avant le déjà-fait)", function()
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("AreaPOIEventPinTemplate", 555)))
+    end)
 end)
