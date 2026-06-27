@@ -61,6 +61,26 @@ function MapTidy.Filter.GetQuestID(pin)
     return questID
 end
 
+-- "Déjà fait par le bataillon" : complétion au niveau du compte (Midnight).
+-- API absente ou questID nil → false (fail-safe : on ne masque jamais par erreur).
+function MapTidy.Filter.IsCompletedByWarband(questID)
+    if not questID then return false end
+    if C_QuestLog and C_QuestLog.IsQuestFlaggedCompletedOnAccount then
+        return C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) == true
+    end
+    return false
+end
+
+-- Combine "type activé ?" avec la règle de masquage du déjà-fait.
+local function shouldShowForType(questType, questID)
+    local typeEnabled = MapTidy.Settings.Get(questType) == true
+    if not typeEnabled then return false end
+    if MapTidy.Settings.Get("HideWarbandCompleted") and MapTidy.Filter.IsCompletedByWarband(questID) then
+        return false
+    end
+    return true
+end
+
 -- Les expéditions sont des events de zone à durée limitée (réput de bataillon, etc.).
 -- Détection par questID, indépendante du pin/addon qui les affiche.
 function MapTidy.Filter.IsExpeditionQuest(questID)
@@ -121,7 +141,7 @@ function MapTidy.Filter.ShouldShowPin(pin)
     end
     if classification ~= nil then
         local questType = getTypeFromClassification(classification)
-        return MapTidy.Settings.Get(questType) == true
+        return shouldShowForType(questType, MapTidy.Filter.GetQuestID(pin))
     end
 
     -- Priorité 2 : nom de template (anciens templates)
@@ -129,7 +149,7 @@ function MapTidy.Filter.ShouldShowPin(pin)
     if template then
         local questType = TEMPLATE_TYPE[template]
         if questType then
-            return MapTidy.Settings.Get(questType) == true
+            return shouldShowForType(questType, MapTidy.Filter.GetQuestID(pin))
         end
         debugLog(MapTidy_L.UNKNOWN_TEMPLATE .. template)
     end
@@ -138,7 +158,7 @@ function MapTidy.Filter.ShouldShowPin(pin)
     local questID = MapTidy.Filter.GetQuestID(pin)
     if questID then
         local questType = getTypeFromQuestID(questID)
-        return MapTidy.Settings.Get(questType) == true
+        return shouldShowForType(questType, questID)
     end
 
     return true

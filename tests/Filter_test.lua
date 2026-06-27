@@ -262,3 +262,41 @@ describe("Filter.ShouldShowPin — Expédition (event de zone à durée limitée
         assert.is_true(MapTidy.Filter.ShouldShowPin(pin("TemplateInconnue", 248583)))
     end)
 end)
+
+describe("Filter.ShouldShowPin — masquage déjà-fait par le bataillon", function()
+    before_each(function()
+        _G.MapTidyCharDB = nil
+        MapTidy.Settings.Initialize()
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function(questID) return false end
+    end)
+
+    it("masque une quête déjà faite quand HideWarbandCompleted=true et type activé", function()
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_false(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+    end)
+
+    it("affiche une quête déjà faite quand HideWarbandCompleted=false", function()
+        MapTidy.Settings.Set("HideWarbandCompleted", false)
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+    end)
+
+    it("affiche une quête non faite quand type activé (inchangé)", function()
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+    end)
+
+    it("masque quand le type est désactivé même si non faite", function()
+        MapTidy.Settings.Set("Campaign", false)
+        assert.is_false(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+    end)
+
+    it("ne masque pas les pass-through même si déjà faits", function()
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("WorldMap_WorldQuestPinTemplate", 555)))
+    end)
+
+    it("IsCompletedByWarband renvoie false si questID nil (fail-safe)", function()
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_false(MapTidy.Filter.IsCompletedByWarband(nil))
+    end)
+end)
