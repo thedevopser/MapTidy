@@ -15,6 +15,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         MapTidy.MinimapButton.Initialize()
         MapTidy.WorldMapButton.Initialize()
         MapTidy.Panel.Initialize()
+        MapTidy.ChangelogPopup.Initialize()
     end
 end)
 
