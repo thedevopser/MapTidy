@@ -4,7 +4,12 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.4.0] — Latest
+## [1.4.1] — Latest
+
+### Fixed
+- `Core/Changelog.lua` and `UI/ChangelogPopup.lua` were missing from the packaged zip (absent from `ADDON_FILES` in the Makefile), causing a load failure and a crash at login (`attempt to index field 'ChangelogPopup' (a nil value)`). Added the two files to the package, plus a `make zip` safeguard that fails the build when a `.lua`/`.xml` referenced in the `.toc` is not in `ADDON_FILES` — preventing this recurring packaging bug
+
+## [1.4.0]
 
 ### Added
 - Hide quests **already completed by your warband** — new per-character setting `HideWarbandCompleted` (enabled by default), driven by `C_QuestLog.IsQuestFlaggedCompletedOnAccount`, with its own toggle in the filter panel (separate from the per-type checkboxes)

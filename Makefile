@@ -12,16 +12,19 @@ ADDON_FILES := \
 	Locales/frFR.lua \
 	Core/Filter.lua \
 	Core/Settings.lua \
+	Core/Changelog.lua \
 	Hooks/WorldMap.lua \
 	UI/WorldMapButton.xml \
 	UI/Panel.lua \
 	UI/MinimapButton.lua \
+	UI/ChangelogPopup.lua \
 	Textures/icon.tga
 
 .PHONY: zip help
 
 zip:
 	@[ -n "$(VERSION)" ] || { echo "Erreur : aucun tag git trouvé. Exemple : git tag v1.0.0"; exit 1; }
+	@python3 tools/check-packaging.py $(ADDON_FILES)
 	@mkdir -p "$(DEST_DIR)"
 	@python3 -c "\
 import zipfile; \
