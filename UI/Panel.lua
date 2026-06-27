@@ -16,7 +16,8 @@ local ROW_HEIGHT   = 28
 local PADDING      = 10
 local HEADER_H     = 24
 local BUTTON_H     = 24
-local PANEL_HEIGHT = PADDING * 2 + HEADER_H + #QUEST_TYPES * ROW_HEIGHT + BUTTON_H + 8
+local EXTRA_H      = ROW_HEIGHT + 12  -- séparateur + ligne "déjà fait"
+local PANEL_HEIGHT = PADDING * 2 + HEADER_H + #QUEST_TYPES * ROW_HEIGHT + EXTRA_H + BUTTON_H + 8
 
 local function syncCheckboxes(panel)
     for _, questType in ipairs(QUEST_TYPES) do
@@ -24,6 +25,9 @@ local function syncCheckboxes(panel)
         if cb then
             cb:SetChecked(MapTidy.Settings.Get(questType.key))
         end
+    end
+    if panel.hideDoneCheckbox then
+        panel.hideDoneCheckbox:SetChecked(MapTidy.Settings.Get("HideWarbandCompleted"))
     end
 end
 
@@ -91,6 +95,34 @@ local function createPanel()
 
         panel.checkboxes[questType.key] = cb
     end
+
+    local doneOffsetY = -(PADDING + HEADER_H + #QUEST_TYPES * ROW_HEIGHT + 6)
+
+    local doneSep = panel:CreateTexture(nil, "ARTWORK")
+    doneSep:SetTexture("Interface\\Common\\UI-TooltipDivider-Transparent")
+    doneSep:SetSize(PANEL_WIDTH - 20, 8)
+    doneSep:SetPoint("TOPLEFT", panel, "TOPLEFT", PADDING, doneOffsetY)
+
+    local doneRow = CreateFrame("Frame", nil, panel)
+    doneRow:SetSize(PANEL_WIDTH - PADDING * 2, ROW_HEIGHT)
+    doneRow:SetPoint("TOPLEFT", panel, "TOPLEFT", PADDING, doneOffsetY - 8)
+
+    local doneLabel = doneRow:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    doneLabel:SetPoint("LEFT", doneRow, "LEFT", 0, 0)
+    doneLabel:SetText(MapTidy_L.HIDE_DONE_LABEL)
+    doneLabel:SetWidth(PANEL_WIDTH - PADDING * 2 - 28)
+    doneLabel:SetJustifyH("LEFT")
+
+    local doneCb = CreateFrame("CheckButton", nil, doneRow, "UICheckButtonTemplate")
+    doneCb:SetSize(20, 20)
+    doneCb:SetPoint("RIGHT", doneRow, "RIGHT", 0, 0)
+    doneCb:SetChecked(MapTidy.Settings.Get("HideWarbandCompleted"))
+    doneCb:SetScript("OnClick", function(self)
+        MapTidy.Settings.Set("HideWarbandCompleted", self:GetChecked() and true or false)
+        MapTidy.WorldMap.Refresh()
+    end)
+
+    panel.hideDoneCheckbox = doneCb
 
     local btnWidth = math.floor((PANEL_WIDTH - PADDING * 2 - 4) / 2)
 

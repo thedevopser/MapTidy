@@ -10,8 +10,9 @@ _G.C_CampaignInfo = {
 }
 
 _G.C_QuestLog = {
-    GetQuestTagInfo    = function(questID) return nil end,
-    IsRepeatableQuest  = function(questID) return false end,
+    GetQuestTagInfo                  = function(questID) return nil end,
+    IsRepeatableQuest                = function(questID) return false end,
+    IsQuestFlaggedCompletedOnAccount = function(questID) return false end,
 }
 
 _G.C_TaskQuest = {

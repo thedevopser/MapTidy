@@ -4,7 +4,18 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.3.0] — Latest
+## [1.4.0] — Latest
+
+### Added
+- Hide quests **already completed by your warband** — new per-character setting `HideWarbandCompleted` (enabled by default), driven by `C_QuestLog.IsQuestFlaggedCompletedOnAccount`, with its own toggle in the filter panel (separate from the per-type checkboxes)
+- One-time-per-account changelog popup (localized FR/EN) shown on login when the addon version changes, backed by a new account-wide saved variable `MapTidyDB`
+
+### Changed
+- Visibility is now a two-axis rule: a quest shows if its **type is enabled** AND (it is **not warband-completed** OR the warband toggle is off). Checking a type means "this content interests me"; the warband toggle independently drops what you have already done
+- "Show All" (panel button / minimap right-click / `/maptidy reset`) now also disables warband-completed hiding, so everything reappears in one gesture
+- Warband-completed hiding never affects pass-through pins (World Quests, expeditions, bonus objectives, scenarios) and is fail-safe — a nil questID or an unavailable API never hides a pin
+
+## [1.3.0]
 
 ### Added
 - New **Expedition** quest type (zone events with a time limit — battalion reputation, loot) with its own checkbox in the filter panel, enabled by default

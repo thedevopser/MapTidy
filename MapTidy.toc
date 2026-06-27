@@ -3,8 +3,9 @@
 ## Notes: Filters quest markers by type
 ## Notes-frFR: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
-## Version: 1.3.0
+## Version: 1.4.0
 ## SavedVariablesPerCharacter: MapTidyCharDB
+## SavedVariables: MapTidyDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 
 libs\LibStub.lua
@@ -15,7 +16,9 @@ Locales\frFR.lua
 MapTidy.lua
 Core/Settings.lua
 Core/Filter.lua
+Core/Changelog.lua
 Hooks/WorldMap.lua
 UI/WorldMapButton.xml
 UI/MinimapButton.lua
 UI/Panel.lua
+UI/ChangelogPopup.lua
