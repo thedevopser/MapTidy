@@ -270,15 +270,23 @@ describe("Filter.ShouldShowPin — masquage déjà-fait par le bataillon", funct
         C_QuestLog.IsQuestFlaggedCompletedOnAccount = function(questID) return false end
     end)
 
-    it("masque une quête déjà faite quand HideWarbandCompleted=true et type activé", function()
+    it("masque une quête déjà faite quand HideWarbandCompleted_Campaign=true et type activé", function()
         C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
         assert.is_false(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
     end)
 
-    it("affiche une quête déjà faite quand HideWarbandCompleted=false", function()
-        MapTidy.Settings.Set("HideWarbandCompleted", false)
+    it("affiche une quête déjà faite quand HideWarbandCompleted_Campaign=false", function()
+        MapTidy.Settings.Set("HideWarbandCompleted_Campaign", false)
         C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
         assert.is_true(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+    end)
+
+    it("le réglage warband d'un type n'affecte pas un autre type (indépendance par type)", function()
+        MapTidy.Settings.Set("HideWarbandCompleted_Campaign", true)
+        MapTidy.Settings.Set("HideWarbandCompleted_Legendary", false)
+        C_QuestLog.IsQuestFlaggedCompletedOnAccount = function() return true end
+        assert.is_false(MapTidy.Filter.ShouldShowPin(pin("CampaignQuestPinTemplate", 555)))
+        assert.is_true(MapTidy.Filter.ShouldShowPin(pin("LegendaryQuestPinTemplate", 556)))
     end)
 
     it("affiche une quête non faite quand type activé (inchangé)", function()
