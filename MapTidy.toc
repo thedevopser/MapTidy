@@ -3,12 +3,13 @@
 ## Notes: Filters quest markers by type
 ## Notes-frFR: Affiche ou masque les marqueurs de quêtes par type
 ## Author: TheDevOpser
-## Version: 1.4.1
+## Version: 1.5.0
 ## SavedVariablesPerCharacter: MapTidyCharDB
 ## SavedVariables: MapTidyDB
 ## IconTexture: Interface\AddOns\MapTidy\Textures\icon
 
 libs\LibStub.lua
+libs\embeds.xml
 libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons-1.4.xml
 
 Locales\enUS.lua

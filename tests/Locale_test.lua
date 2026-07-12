@@ -4,6 +4,14 @@ local REQUIRED_KEYS = {
     "QUEST_META", "QUEST_REPEATABLE", "QUEST_LOCAL_STORY",
     "SHOW_ALL", "HIDE_ALL", "SHOW_ALL_MSG",
     "TOOLTIP_LEFT_CLICK", "TOOLTIP_RIGHT_CLICK", "SCAN_ACTIVE_MSG",
+    "COLUMN_HEADER_SHOW", "COLUMN_HEADER_HIDE_DONE",
+    "TOOLTIP_SHOW_TYPE", "TOOLTIP_HIDE_DONE_TYPE",
+    "PRESET_NONE", "PRESET_SAVE", "PRESET_DELETE",
+    "PRESET_SAVE_PROMPT", "PRESET_OVERWRITE_CONFIRM", "PRESET_DELETE_CONFIRM",
+    "PANEL_SUBTITLE", "TOOLTIP_PRESET_DROPDOWN",
+    "TOOLTIP_PRESET_SAVE", "TOOLTIP_PRESET_DELETE", "TOOLTIP_SHOW_ALL",
+    "TOOLTIP_HIDE_ALL", "STATUS_HINT",
+    "ACTION_ROW_LABEL", "PRESET_ROW_LABEL", "PRESET_LOAD", "TOOLTIP_PRESET_LOAD",
 }
 
 describe("Locale enUS", function()
@@ -43,7 +51,7 @@ describe("Locale frFR", function()
     end)
 
     it("SHOW_ALL est en francais", function()
-        assert.equals("Tout afficher", MapTidy_L.SHOW_ALL)
+        assert.equals("Tout", MapTidy_L.SHOW_ALL)
     end)
 end)
 
@@ -57,6 +65,6 @@ describe("Locale fallback (deDE)", function()
 
     it("utilise l'anglais pour une locale inconnue", function()
         assert.equals("Campaign", MapTidy_L.QUEST_CAMPAIGN)
-        assert.equals("Show All", MapTidy_L.SHOW_ALL)
+        assert.equals("All", MapTidy_L.SHOW_ALL)
     end)
 end)

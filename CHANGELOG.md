@@ -4,7 +4,17 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.4.1] — Latest
+## [1.5.0] — Latest
+
+### Added
+- **"Already done" hiding is now per quest type** instead of a single global switch — each of the 6 concerned types (Campaign, Important, Legendary, Meta, Repeatable, Local Story) has its own `HideWarbandCompleted_<Type>` toggle, shown as a dedicated "Done on an alt" column next to each type's checkbox in the panel. Existing installs migrate transparently: the old global setting fans out to the 6 new keys on first login, then is removed
+- **Named presets** — save the current filter configuration (all type + "done on an alt" toggles) under a name, and reload it instantly from any character. Presets are account-wide (shared across all your characters), managed from the panel: pick one from the dropdown and click Load, or Save/Delete the current one. No presets ship by default — only what you create
+- Filter panel rewritten on **AceGUI-3.0** (vendored from the official Ace3 repository): the window is now resizable and draggable with position/size remembered, and every control has a tooltip explaining what it does
+
+### Changed
+- Panel layout reorganized for clarity: "Afficher"/"Déjà fait sur un reroll" replace the old ambiguous "Voir"/"Fait" column headers; "Tout"/"Aucun" sit next to an "Afficher :" label right under the type list they act on (previously named "Tout afficher"/"Tout masquer" and visually detached from it); the Presets controls are grouped in their own clearly separated block. Loading a preset now requires an explicit "Charger" click instead of applying on dropdown selection, to avoid accidentally overwriting your filters while browsing the list
+
+## [1.4.1]
 
 ### Fixed
 - `Core/Changelog.lua` and `UI/ChangelogPopup.lua` were missing from the packaged zip (absent from `ADDON_FILES` in the Makefile), causing a load failure and a crash at login (`attempt to index field 'ChangelogPopup' (a nil value)`). Added the two files to the package, plus a `make zip` safeguard that fails the build when a `.lua`/`.xml` referenced in the `.toc` is not in `ADDON_FILES` — preventing this recurring packaging bug

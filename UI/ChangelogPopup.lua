@@ -1,6 +1,6 @@
 MapTidy.ChangelogPopup = {}
 
-local CHANGELOG_VERSION = "1.4.0"
+local CHANGELOG_VERSION = "1.5.0"
 
 local function showPopup()
     StaticPopupDialogs = StaticPopupDialogs or {}

@@ -75,7 +75,7 @@ end
 local function shouldShowForType(questType, questID)
     local typeEnabled = MapTidy.Settings.Get(questType) == true
     if not typeEnabled then return false end
-    if MapTidy.Settings.Get("HideWarbandCompleted") and MapTidy.Filter.IsCompletedByWarband(questID) then
+    if MapTidy.Settings.Get("HideWarbandCompleted_" .. questType) and MapTidy.Filter.IsCompletedByWarband(questID) then
         return false
     end
     return true
