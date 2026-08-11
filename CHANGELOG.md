@@ -4,7 +4,12 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.5.0] — Latest
+## [1.5.1] — Latest
+
+### Changed
+- Updated `## Interface` to `120100` for WoW patch 12.1.0 — the addon is no longer flagged as out of date by the client
+
+## [1.5.0]
 
 ### Added
 - **"Already done" hiding is now per quest type** instead of a single global switch — each of the 6 concerned types (Campaign, Important, Legendary, Meta, Repeatable, Local Story) has its own `HideWarbandCompleted_<Type>` toggle, shown as a dedicated "Done on an alt" column next to each type's checkbox in the panel. Existing installs migrate transparently: the old global setting fans out to the 6 new keys on first login, then is removed
