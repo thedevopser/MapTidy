@@ -4,7 +4,12 @@ All notable changes to MapTidy are documented here.
 
 ---
 
-## [1.5.1] — Latest
+## [1.5.2] — Latest
+
+### Changed
+- Added `120105` to `## Interface` for WoW patch 12.1.5 — the addon is no longer flagged as out of date by the client
+
+## [1.5.1]
 
 ### Changed
 - Updated `## Interface` to `120100` for WoW patch 12.1.0 — the addon is no longer flagged as out of date by the client
